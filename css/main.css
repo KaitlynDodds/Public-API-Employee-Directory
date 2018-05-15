@@ -23,6 +23,11 @@ span {
 	color: rgba(124, 123, 127, .5);
 }
 
+hr {
+	opacity: .3;
+	margin: 25px 15px;
+}
+
 .wrapper {
 	margin: 20px 2%;
 }
@@ -75,4 +80,60 @@ span {
 
 .email {
 	margin-bottom: 5px;
+}
+
+.lightbox {
+	/** Default lightbox to hidden */
+	/*display: none;*/
+
+	/** Position and style */
+	position: fixed;
+	z-index: 999;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	top: 0;
+	left: 0;
+	background: rgba(0,0,0,0.8);
+}
+
+.lightbox div {
+	position: relative;
+	background: #fff;
+	width: 23%;
+	min-width: 300px;
+	margin: 20vh auto 0;
+	padding: 30px 20px;
+	border-radius: 5px;
+}
+
+.lightbox span {
+	margin-bottom: 15px;
+}
+
+.lightbox .name {
+	margin-top: 15px;
+}
+
+.lightbox .email {
+	margin-bottom: 10px;
+}
+
+.lightbox button {
+	position: absolute;
+	top: 0;
+	right: 5px;
+	background: none;
+	border: none;
+	opacity: .5;
+	padding-top: 5px;
+	transition: opacity .3s;
+}
+
+.lightbox button:hover {
+	opacity: 1;
+}
+
+.lightbox button:focus {
+	outline: none;
 }
