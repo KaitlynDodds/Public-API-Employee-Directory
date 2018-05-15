@@ -50,11 +50,6 @@ span {
 	justify-content: space-around;
 }
 
-.card div,
-.avatar {
-	/*padding: 0 10px;*/
-}
-
 .card div {
 	display: flex;
 	flex-direction: column;
@@ -63,6 +58,7 @@ span {
 
 .avatar {
 	border-radius: 100%;
+	margin-right: 8px;
 }
 
 .name {
