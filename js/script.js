@@ -8,44 +8,36 @@ $.ajax({
   }
 });
 
-/*
-<div class="card">
-	<img class="avatar" src="https://randomuser.me/api/portraits/women/26.jpg" alt="profile image">
-	<div>
-		<p class="name">Alaster Dangerfield</p>
-		<span class="email">alaster.danger@somewhere.com</span>
-		<span class="city">Columbus</span>
-	</div>
-</div>
-*/
 
 function createACard(employee) {
+	// setup
 	const card = $('<div>');
+	const infoDiv = $('<div>');
 	card.addClass('card');
 
-	const avatar = $('<img>');
-	avatar.addClass('avatar');
-	avatar.attr('src', employee.picture.large);
-	avatar.appendTo(card);
+	// element factory 
+	function createElement(type, attribute, value, className="") {
+		const element = $(type);
+		element.addClass(className);
 
-	const infoDiv = $('<div>');
+		if (attribute === 'text') {
+			element.text(value);
+		} else {
+			element.attr(attribute, value);	
+		}
 
-	const name = $('<p>');
-	name.text(`${employee.name.first} ${employee.name.last}`);
-	name.addClass('name');
-	name.appendTo(infoDiv);
+		return element;
+	}
 
-	const email = $('<span>');
-	email.addClass('email');
-	email.text(employee.email);
-	email.appendTo(infoDiv);
+	function appendToParent(child, parent) {
+		child.appendTo(parent);
+	}
 
-	const city = $('<span>');
-	city.addClass('city');
-	city.text(employee.location.city);
-	city.appendTo(infoDiv);
-
-	infoDiv.appendTo(card);
+	appendToParent(createElement('<img>', 'src', employee.picture.large, 'avatar'), card);
+	appendToParent(createElement('<p>', 'text', `${employee.name.first} ${employee.name.last}`, 'name'), infoDiv);
+	appendToParent(createElement('<span>', 'text', employee.email, 'email'), infoDiv);
+	appendToParent(createElement('<span>', 'text', employee.location.city, 'city'), infoDiv);
+	appendToParent(infoDiv, card);
 
 	return card;
 }
