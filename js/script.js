@@ -96,7 +96,7 @@ function buildLightBox(employeeData) {
 
 	$('.lightbox .address').text(`${employeeData.location.street}, ${getStateAbrv(employeeData.location.state)}, ${employeeData.location.postcode}`);
 
-	$('.lightbox .dob').text(`Birthday: ${employeeData.dob}`);
+	$('.lightbox .dob').text(`Birthday: ${formatDate(new Date(employeeData.dob))}`);
 
 	$('.lightbox').css('display', 'block');
 }
@@ -105,6 +105,20 @@ function getStateAbrv(state) {
 	return 'WY';
 }
 
+function formatDate(date) {
+	
+	function formatWithTwoDigits(val) {
+		return (val.toString().length > 1 ? `${val}` : `0${val}`);
+	}
+
+	const formattedDate = "";
+
+	const formattedMonth = formatWithTwoDigits(date.getMonth() + 1);
+	const formattedDay = formatWithTwoDigits(date.getDay() + 1);
+	const formattedShortYear = `${date.getFullYear().toString().substring(2)}`;
+
+	return `${formattedMonth}/${formattedDay}/${formattedShortYear}`;
+}
 
 
 
