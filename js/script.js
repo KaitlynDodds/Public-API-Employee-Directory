@@ -1,4 +1,6 @@
 
+let employees = {};
+
 // fetch employee data 
 $.ajax({
   url: 'https://randomuser.me/api/?results=12&nat=us&exc=login',
@@ -9,6 +11,7 @@ $.ajax({
 });
 
 
+// Generate UI for each employee 
 function createACard(employee) {
 	// setup
 	const card = $('<div>');
@@ -42,14 +45,84 @@ function createACard(employee) {
 	return card;
 }
 
+
+// construct and add directory UI to page 
 function buildDirectoryUI(data) {
 	// isolate employee data
-	const employees = (data.results);
-	console.log(employees);
+	employees = (data.results);
 	
 	// build card for each employee 
-	const cards = employees.map(employee => createACard(employee));
+	const cards = employees.map(employee => {
+		const card = createACard(employee);
+		employee['card'] = card;
+		return card;
+	});
+
+	console.log(employees);
 
 	// add individual cards to UI 
 	cards.forEach(card => card.appendTo('.directory'));
 }
+
+$('.lightbox button').on('click', handleLightboxBtnClick);
+
+function handleLightboxBtnClick(e) {
+	$('.lightbox').css('display', 'none');
+}
+
+
+$('body').on('click', '.directory .card', handleUserCardClick);
+
+function handleUserCardClick(e) {
+
+	const targetCard = e.currentTarget;
+	
+	// get employee info that corresponds to selected card
+	const match = employees.filter(employee => employee.card[0] === targetCard);
+
+	const lightbox = buildLightBox(match[0]);
+} 
+
+function buildLightBox(employeeData) {
+	$('.lightbox .avatar').attr('src', employeeData.picture.large);
+
+	$('.lightbox .name').text(`${employeeData.name.first} ${employeeData.name.last}`);
+
+	$('lightbox .email').text(`${employeeData.email}`);
+
+	$('.lightbox .city').text(`${employeeData.location.city}`);
+
+	$('.lightbox .phone').text(`${employeeData.cell}`);
+
+	$('.lightbox .address').text(`${employeeData.location.street}, ${getStateAbrv(employeeData.location.state)}, ${employeeData.location.postcode}`);
+
+	$('.lightbox .dob').text(`Birthday: ${employeeData.dob}`);
+
+	$('.lightbox').css('display', 'block');
+}
+
+function getStateAbrv(state) {
+	return 'WY';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

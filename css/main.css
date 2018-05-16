@@ -71,10 +71,11 @@ hr {
 	font-weight: bold;
 	margin: 0 0 10px 0;
 	padding: 0;
-	text-transform: capitalize;
 }
 
-.city {
+.city,
+.name,
+.address {
 	text-transform: capitalize;
 }
 
@@ -82,9 +83,13 @@ hr {
 	margin-bottom: 5px;
 }
 
+.visible {
+	display: block;
+}
+
 .lightbox {
 	/** Default lightbox to hidden */
-	/*display: none;*/
+	display: none;
 
 	/** Position and style */
 	position: fixed;
