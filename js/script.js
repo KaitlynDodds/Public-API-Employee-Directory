@@ -7,20 +7,23 @@ $.ajax({
   url: 'https://randomuser.me/api/?results=12&nat=us&exc=login',
   dataType: 'json',
   success: (data) => {
-  	buildDirectoryUI(data);
+  	handleEmployeeData(data);
   }
 });
 
+function handleEmployeeData(data) {
+	// isolate employee data
+	employees = (data.results);
+
+	buildDirectoryUI(employees);
+}
 
 /** Build UI Functions
 ****************************/
 
 /* handle employee data and add directory UI to page */
-function buildDirectoryUI(data) {
+function buildDirectoryUI(employees) {
 
-	// isolate employee data
-	employees = (data.results);
-	
 	// build card for each employee 
 	const cards = employees.map(employee => {
 		// build card div for employee
@@ -58,6 +61,21 @@ $('.lightbox button').on('click', handleLightboxBtnClick);
 
 // user clicks employee card 
 $('body').on('click', '.directory .card', handleUserCardClick);
+
+$('.search input').on('input', handleSearchInput);
+
+function handleSearchInput(e){
+	// display only the employees whos names or username matches/contains the input
+	const input = e.target.value.toLowerCase();
+
+	const matches = employees.filter(employee => {
+		if (employee.name.first.includes(input) || employee.name.last.includes(input)) {
+			$(employee.card[0]).removeClass('hidden');
+		} else {
+			$(employee.card[0]).addClass('hidden');
+		}
+	});
+}
 
 
 function handleLightboxBtnClick(e) {
