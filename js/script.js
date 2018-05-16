@@ -118,6 +118,21 @@ function getFormattedAddress(employeeData) {
 	return `${employeeData.location.street}, ${getStateAbbr(employeeData.location.state)}, ${employeeData.location.postcode}`;
 }
 
+function getFormattedDate(date) {
+
+	function formatWithTwoDigits(val) {
+		return (val.toString().length > 1 ? `${val}` : `0${val}`);
+	}
+
+	const formattedDate = "";
+
+	const formattedMonth = formatWithTwoDigits(date.getMonth() + 1);
+	const formattedDay = formatWithTwoDigits(date.getDay() + 1);
+	const formattedShortYear = `${date.getFullYear().toString().substring(2)}`;
+
+	return `${formattedMonth}/${formattedDay}/${formattedShortYear}`;
+}
+
 function getStateAbbr(state) {
 	var states = {
         'arizona': 'AZ',
@@ -176,23 +191,6 @@ function getStateAbbr(state) {
 
     return states[state];
 }
-
-function getFormattedDate(date) {
-
-	function formatWithTwoDigits(val) {
-		return (val.toString().length > 1 ? `${val}` : `0${val}`);
-	}
-
-	const formattedDate = "";
-
-	const formattedMonth = formatWithTwoDigits(date.getMonth() + 1);
-	const formattedDay = formatWithTwoDigits(date.getDay() + 1);
-	const formattedShortYear = `${date.getFullYear().toString().substring(2)}`;
-
-	return `${formattedMonth}/${formattedDay}/${formattedShortYear}`;
-}
-
-
 
 
 
