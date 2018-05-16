@@ -69,7 +69,7 @@ function handleSearchInput(e){
 	// display only the employees whos names or username matches/contains the input
 	const input = e.target.value.toLowerCase();
 
-	employees.filter(employee => {
+	employees.forEach(employee => {
 		if (employee.name.first.includes(input) || 
 			employee.name.last.includes(input) ||
 			employee.login.username.includes(input)) {
