@@ -1,7 +1,8 @@
 
 let employees = {};
 
-// fetch employee data 
+/** AJAX GET Employee Data 
+****************************/ 
 $.ajax({
   url: 'https://randomuser.me/api/?results=12&nat=us&exc=login',
   dataType: 'json',
@@ -11,8 +12,75 @@ $.ajax({
 });
 
 
-// Generate UI for each employee 
+/** Build UI Functions
+****************************/
+
+/* handle employee data and add directory UI to page */
+function buildDirectoryUI(data) {
+
+	// isolate employee data
+	employees = (data.results);
+	
+	// build card for each employee 
+	const cards = employees.map(employee => {
+		// build card div for employee
+		const card = createACard(employee);
+		
+		// add reference to card div to employee data 
+		employee['card'] = card;
+
+		return card;
+	});
+
+	// add individual cards to UI 
+	cards.forEach(card => card.appendTo('.directory'));
+}
+
+/* Populate lightbox with employee data */
+function buildLightBox(employeeData) {
+	$('.lightbox .avatar').attr('src', employeeData.picture.large);
+	$('.lightbox .name').text(`${employeeData.name.first} ${employeeData.name.last}`);
+	$('.lightbox .email').text(`${employeeData.email}`);
+	$('.lightbox .city').text(`${employeeData.location.city}`);
+	$('.lightbox .phone').text(`${employeeData.cell}`);
+	$('.lightbox .address').text(getFormattedAddress(employeeData));
+	$('.lightbox .dob').text(`Birthday: ${getFormattedDate(new Date(employeeData.dob))}`);
+
+	$('.lightbox').css('display', 'block');
+}
+
+
+/** Event Handlers
+*********************/
+
+// user closes lightbox 
+$('.lightbox button').on('click', handleLightboxBtnClick);
+
+// user clicks employee card 
+$('body').on('click', '.directory .card', handleUserCardClick);
+
+
+function handleLightboxBtnClick(e) {
+	$('.lightbox').css('display', 'none');
+}
+
+function handleUserCardClick(e) {
+
+	const targetCard = e.currentTarget;
+	
+	// get employee info that corresponds to selected card
+	const match = employees.filter(employee => employee.card[0] === targetCard);
+
+	const lightbox = buildLightBox(match[0]);
+} 
+
+
+/** Helper Functions
+***********************/
+
+/* Generate card for each employee */
 function createACard(employee) {
+
 	// setup
 	const card = $('<div>');
 	const infoDiv = $('<div>');
@@ -36,6 +104,7 @@ function createACard(employee) {
 		child.appendTo(parent);
 	}
 
+	// constructing card div 
 	appendToParent(createElement('<img>', 'src', employee.picture.large, 'avatar'), card);
 	appendToParent(createElement('<p>', 'text', `${employee.name.first} ${employee.name.last}`, 'name'), infoDiv);
 	appendToParent(createElement('<span>', 'text', employee.email, 'email'), infoDiv);
@@ -43,62 +112,6 @@ function createACard(employee) {
 	appendToParent(infoDiv, card);
 
 	return card;
-}
-
-
-// construct and add directory UI to page 
-function buildDirectoryUI(data) {
-	// isolate employee data
-	employees = (data.results);
-	
-	// build card for each employee 
-	const cards = employees.map(employee => {
-		const card = createACard(employee);
-		employee['card'] = card;
-		return card;
-	});
-
-	console.log(employees);
-
-	// add individual cards to UI 
-	cards.forEach(card => card.appendTo('.directory'));
-}
-
-$('.lightbox button').on('click', handleLightboxBtnClick);
-
-function handleLightboxBtnClick(e) {
-	$('.lightbox').css('display', 'none');
-}
-
-
-$('body').on('click', '.directory .card', handleUserCardClick);
-
-function handleUserCardClick(e) {
-
-	const targetCard = e.currentTarget;
-	
-	// get employee info that corresponds to selected card
-	const match = employees.filter(employee => employee.card[0] === targetCard);
-
-	const lightbox = buildLightBox(match[0]);
-} 
-
-function buildLightBox(employeeData) {
-	$('.lightbox .avatar').attr('src', employeeData.picture.large);
-
-	$('.lightbox .name').text(`${employeeData.name.first} ${employeeData.name.last}`);
-
-	$('lightbox .email').text(`${employeeData.email}`);
-
-	$('.lightbox .city').text(`${employeeData.location.city}`);
-
-	$('.lightbox .phone').text(`${employeeData.cell}`);
-
-	$('.lightbox .address').text(getFormattedAddress(employeeData));
-
-	$('.lightbox .dob').text(`Birthday: ${getFormattedDate(new Date(employeeData.dob))}`);
-
-	$('.lightbox').css('display', 'block');
 }
 
 function getFormattedAddress(employeeData) {
