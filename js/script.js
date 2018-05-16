@@ -4,7 +4,7 @@ let employees = {};
 /** AJAX GET Employee Data 
 ****************************/ 
 $.ajax({
-  url: 'https://randomuser.me/api/?results=12&nat=us&exc=login',
+  url: 'https://randomuser.me/api/?results=12&nat=us',
   dataType: 'json',
   success: (data) => {
   	handleEmployeeData(data);
@@ -42,6 +42,7 @@ function buildDirectoryUI(employees) {
 /* Populate lightbox with employee data */
 function buildLightBox(employeeData) {
 	$('.lightbox .avatar').attr('src', employeeData.picture.large);
+	$('.lightbox .username').text(`${employeeData.login.username}`);
 	$('.lightbox .name').text(`${employeeData.name.first} ${employeeData.name.last}`);
 	$('.lightbox .email').text(`${employeeData.email}`);
 	$('.lightbox .city').text(`${employeeData.location.city}`);
@@ -68,8 +69,10 @@ function handleSearchInput(e){
 	// display only the employees whos names or username matches/contains the input
 	const input = e.target.value.toLowerCase();
 
-	const matches = employees.filter(employee => {
-		if (employee.name.first.includes(input) || employee.name.last.includes(input)) {
+	employees.filter(employee => {
+		if (employee.name.first.includes(input) || 
+			employee.name.last.includes(input) ||
+			employee.login.username.includes(input)) {
 			$(employee.card[0]).removeClass('hidden');
 		} else {
 			$(employee.card[0]).addClass('hidden');
