@@ -33,11 +33,7 @@ hr {
 }
 
 .header {
-	display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 10px 15px;
+	margin: 10px 15px;
 }
 
 .header h3 {
@@ -45,7 +41,7 @@ hr {
 }
 
 .search input {
-	width: 190px;
+	width: calc(100% - 48px);
 	border: none;
 	border: solid rgba(124, 123, 127, .3) 1px;
 	border-top-right-radius: 5px;
@@ -171,6 +167,19 @@ hr {
 
 .lightbox button:hover {
 	opacity: 1;
+}
+
+@media only screen and (min-width: 768px) {
+
+	.header {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.search input {
+		width: 190px;
+	}
+
 }
 
 .lightbox button:focus {
