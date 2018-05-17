@@ -73,15 +73,15 @@ $('.lightbox .forward').on('click', handleLightBoxForward);
 function handleLightBoxBack(e) {
 	// find card of currently viewed employee 
 	const targetCard = lightboxTargetCard;
-	let prevCard = $(targetCard).prev('.card');
 
-	// select previous sibling to currently selected card 
+	// find previous sibling of currently viewed employee
+	let prevCard = $(targetCard).prev('.card');
+	// select from only visible cards 
 	while (prevCard.hasClass('hidden')) {
 		prevCard = prevCard.prev('.card');	
 	}
-	
 
-	// build new lightbox with employee of previous card
+	// find corresponding employee data 
 	let employeeData;
 	for (let i = 0; i < employees.length; i++) {
 		if (`${employees[i].name.first} ${employees[i].name.last}` === prevCard.find('.name').text() 
@@ -92,14 +92,43 @@ function handleLightBoxBack(e) {
 		}
 	}
 
+		// no 'next' card
 	if (employeeData === undefined) return;
-
+	// update lightbox target card
 	lightboxTargetCard = prevCard;
+	// build new lightbox 
 	buildLightBox(employeeData);
 }
 
 function handleLightBoxForward(e) {
+	// find card of currently viewed employee 
+	const targetCard = lightboxTargetCard;
 
+	// find next sibling of currently viewed employee 
+	let nextCard = $(targetCard).next('.card');
+	// select from only visible cards 
+	while (nextCard.hasClass('hidden')) {
+		nextCard = nextCard.next('.card');	
+	}
+
+	// find corresponding employee data 
+	let employeeData;
+	for (let i = 0; i < employees.length; i++) {
+		if (`${employees[i].name.first} ${employees[i].name.last}` === nextCard.find('.name').text() 
+			&& employees[i].email === nextCard.find('.email').text()) 
+		{
+			employeeData = employees[i];
+			break;
+		}
+	}
+
+	// no 'next' card
+	if (employeeData === undefined) return;
+
+	// update lightbox target card
+	lightboxTargetCard = nextCard;
+	// build new lightbox 
+	buildLightBox(employeeData);
 }
 
 function handleSearchInput(e){
