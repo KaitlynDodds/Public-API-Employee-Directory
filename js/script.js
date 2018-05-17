@@ -1,5 +1,6 @@
 
 let employees = {};
+let lightboxTargetCard = null;
 
 /** AJAX GET Employee Data 
 ****************************/ 
@@ -65,6 +66,42 @@ $('body').on('click', '.directory .card', handleUserCardClick);
 
 $('.search input').on('input', handleSearchInput);
 
+$('.lightbox .back').on('click', handleLightBoxBack);
+
+$('.lightbox .forward').on('click', handleLightBoxForward);
+
+function handleLightBoxBack(e) {
+	// find card of currently viewed employee 
+	const targetCard = lightboxTargetCard;
+	let prevCard = $(targetCard).prev('.card');
+
+	// select previous sibling to currently selected card 
+	while (prevCard.hasClass('hidden')) {
+		prevCard = prevCard.prev('.card');	
+	}
+	
+
+	// build new lightbox with employee of previous card
+	let employeeData;
+	for (let i = 0; i < employees.length; i++) {
+		if (`${employees[i].name.first} ${employees[i].name.last}` === prevCard.find('.name').text() 
+			&& employees[i].email === prevCard.find('.email').text()) 
+		{
+			employeeData = employees[i];
+			break;
+		}
+	}
+
+	if (employeeData === undefined) return;
+
+	lightboxTargetCard = prevCard;
+	buildLightBox(employeeData);
+}
+
+function handleLightBoxForward(e) {
+
+}
+
 function handleSearchInput(e){
 	// display only the employees whos names or username matches/contains the input
 	const input = e.target.value.toLowerCase();
@@ -87,10 +124,10 @@ function handleLightboxBtnClick(e) {
 
 function handleUserCardClick(e) {
 
-	const targetCard = e.currentTarget;
+	lightboxTargetCard = e.currentTarget;
 	
 	// get employee info that corresponds to selected card
-	const match = employees.filter(employee => employee.card[0] === targetCard);
+	const match = employees.filter(employee => employee.card[0] === lightboxTargetCard);
 
 	const lightbox = buildLightBox(match[0]);
 } 
