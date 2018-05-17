@@ -59,7 +59,7 @@ function buildLightBox(employeeData) {
 *********************/
 
 // user closes lightbox 
-$('.lightbox .close').on('click', handleLightboxBtnClick);
+$('.lightbox .close').on('click', handleLightboxClose);
 
 // user clicks employee card 
 $('body').on('click', '.directory .card', handleUserCardClick);
@@ -82,17 +82,9 @@ function handleLightBoxBack(e) {
 	}
 
 	// find corresponding employee data 
-	let employeeData;
-	for (let i = 0; i < employees.length; i++) {
-		if (`${employees[i].name.first} ${employees[i].name.last}` === prevCard.find('.name').text() 
-			&& employees[i].email === prevCard.find('.email').text()) 
-		{
-			employeeData = employees[i];
-			break;
-		}
-	}
+	let employeeData = findEmployee(prevCard.find('.name').text(), prevCard.find('.email').text());
 
-		// no 'next' card
+	// no 'previous' card
 	if (employeeData === undefined) return;
 	// update lightbox target card
 	lightboxTargetCard = prevCard;
@@ -112,15 +104,7 @@ function handleLightBoxForward(e) {
 	}
 
 	// find corresponding employee data 
-	let employeeData;
-	for (let i = 0; i < employees.length; i++) {
-		if (`${employees[i].name.first} ${employees[i].name.last}` === nextCard.find('.name').text() 
-			&& employees[i].email === nextCard.find('.email').text()) 
-		{
-			employeeData = employees[i];
-			break;
-		}
-	}
+	let employeeData = findEmployee(nextCard.find('.name').text(), nextCard.find('.email').text());
 
 	// no 'next' card
 	if (employeeData === undefined) return;
@@ -147,7 +131,7 @@ function handleSearchInput(e){
 }
 
 
-function handleLightboxBtnClick(e) {
+function handleLightboxClose(e) {
 	$('.lightbox').css('display', 'none');
 }
 
@@ -164,6 +148,16 @@ function handleUserCardClick(e) {
 
 /** Helper Functions
 ***********************/
+
+function findEmployee(fullName, email) {
+	for (let i = 0; i < employees.length; i++) {
+		if (`${employees[i].name.first} ${employees[i].name.last}` === fullName 
+			&& employees[i].email === email) 
+		{
+			return employees[i];
+		}
+	}
+}
 
 /* Generate card for each employee */
 function createACard(employee) {
