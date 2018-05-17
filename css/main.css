@@ -154,7 +154,7 @@ hr {
 	margin-bottom: 10px;
 }
 
-.lightbox button {
+.lightbox .close {
 	position: absolute;
 	top: 0;
 	right: 5px;
@@ -165,8 +165,32 @@ hr {
 	transition: opacity .3s;
 }
 
-.lightbox button:hover {
+.lightbox .directionBtns {
+	position: absolute;
+	top: 50%;
+	border:none;
+	background: rgba(0, 0, 0, 0);
+	color: #fff;
+}
+
+.lightbox .back {
+	left: -8%;
+}
+
+.lightbox .forward {
+	right: -8%;
+}
+
+.lightbox .directionBtns:hover {
+	color: rgba(124, 123, 127, .8);
+}
+
+.lightbox .close:hover {
 	opacity: 1;
+}
+
+.lightbox button:focus {
+	outline: none;
 }
 
 .hidden {
@@ -184,8 +208,13 @@ hr {
 		width: 190px;
 	}
 
+	.lightbox .back {
+		left: -50%;
+	}
+
+	.lightbox .forward {
+		right: -50%;
+	}
+
 }
 
-.lightbox button:focus {
-	outline: none;
-}

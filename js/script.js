@@ -58,7 +58,7 @@ function buildLightBox(employeeData) {
 *********************/
 
 // user closes lightbox 
-$('.lightbox button').on('click', handleLightboxBtnClick);
+$('.lightbox .close').on('click', handleLightboxBtnClick);
 
 // user clicks employee card 
 $('body').on('click', '.directory .card', handleUserCardClick);
