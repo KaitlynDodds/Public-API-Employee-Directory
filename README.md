@@ -42,5 +42,5 @@ Using photos and information that the API provides, you’ll display 12 users, a
 **Add a way to move back and forth between employee detail windows when the modal window is open.**
 
 
-Date Completed: 05/17/2018  
-Grade: Exceeds Expectations
+**Date Completed:** 05/17/2018  
+**Grade:** Exceeds Expectations
